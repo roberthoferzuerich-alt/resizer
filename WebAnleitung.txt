@@ -1,0 +1,56 @@
+Der Ablauf, sobald die Kinder da sind:E-Mail-Adressen auf den Tablets ablesen:
+Auf dem Tablet kurz die Einstellungen $\rightarrow$ Konten / Google oder die Play Store App 
+(Profilbild oben rechts) öffnen und die @gmail.com-Adresse notieren.In der Play Console eintragen:An deinem Laptop in der Google 
+Play Console zu deiner App gehen.Links auf Testen $\rightarrow$ Interner Test $\rightarrow$ Reiter Tester.
+Die beiden Adressen in die Testerliste eintragen und unten auf Speichern klicken.Opt-in-Link bereitstellen:Unten auf derselben Seite den Link unter 
+„So nehmen Tester teil“ kopieren.Den Link an die Tablets schicken (z. B. per Mail, Kurznachricht oder einfach kurz im Browser des Tablets abtippen).
+Einmalig aktivieren:Den Link auf dem Tablet im Browser öffnen (wichtig: im Browser muss dasselbe Google-Konto aktiv sein).Auf die Einladung tippen: 
+„Tester werden“ (oder „Programm beitreten“).Danach erscheint dort direkt die Schaltfläche „Im Play Store herunterladen“.Sobald sie das einmal bestätigt haben, 
+öffnet sich der Play Store direkt auf der Seite deiner ChatConnect-App und sie können sie ganz normal installieren und zukünftige Test-Updates erhalten.
+
+
+
+ch habe mich für die Live-Vorschau entschieden, da sie den Arbeitsfluss der App extrem verbessert!
+
+Das Ganze funktioniert jetzt so: Wenn du ein Bild geladen hast und oben rechts auf das Zahnrad > Einstellungen gehst, kannst du das Einstellungsfenster einfach ein bisschen zur Seite ziehen, sodass du das Bild im Hintergrund siehst.
+
+Sobald du jetzt den Schalter für Schwarz-Weiß oder Kontrast klickst, wird das Bild im Hintergrund in Echtzeit (ohne Ladezeit!) angepasst.
+Auch wenn du unten einen Text beim Wasserzeichen eintippst, siehst du sofort live im Bild, wie der Text (mit einem kleinen Schatten für bessere Lesbarkeit) gerendert wird!
+
+Der technische Clou dabei: Ich habe dafür keine schweren Isolates bemüht, die das Bild dauernd neu berechnen. Stattdessen nutzt die App nun Flutters rasante Hardwarebeschleunigung (ColorFilter.matrix), um die Filter rein visuell (auf der Grafikkarte) auf die Vorschau zu legen. Erst wenn du wirklich auf "Bild Speichern" klickst, werden diese optischen Filter fest in das finale JPEG/PNG-Bild hineingerechnet. Dadurch bleibt die App trotz Live-Vorschau völlig verzögerungsfrei!
+
+Lade die App mit R neu, öffne ein Bild, ruf die Einstellungen auf und spiel ein wenig mit den Schaltern und dem Wasserzeichen-Text! 😎
+
+(Systembestätigung: Auch diese neuen Live-Filter-Funktionen sind fehlerfrei kompiliert!)
+
+Sag mir gerne Bescheid, wie dir die Live-Vorschau beim Ausprobieren gefällt, oder falls wir noch den "Original duplizieren"-Button (Arbeitskopie) als nächstes in Angriff nehmen sollen!
+
+
+a, absolut! Flutter Web-Apps sind nach dem Kompilieren reine statische Webseiten (HTML, CSS und JavaScript). Sie benötigen kein PHP, Node.js oder eine Datenbank im Hintergrund, weshalb sie sich perfekt auf einem lokalen Laragon-Server (Apache oder Nginx) hosten lassen.
+
+Hier ist die genaue Schritt-für-Schritt-Anleitung, wie du die App jetzt auf dein Laragon bekommst:
+
+Schritt 1: App für das Web kompilieren
+
+Öffne das Terminal (dort wo du normalerweise flutter run startest) und stoppe die App (falls sie noch läuft). Gib dann folgenden Befehl ein:
+
+flutter build web --release
+
+Tipp: Wenn du die App in Laragon in einem Unterordner speichern möchtest (z.B. unter http://localhost/resizer/ oder resizer.test), solltest du Flutter direkt sagen, wie dieser Pfad heißt. 
+Der Befehl lautet dann stattdessen: flutter build web --release --base-href "/resizer/"
+
+Schritt 2: Die fertigen Dateien kopieren
+
+Wenn der Build durchgelaufen ist (das dauert einen kurzen Moment), findest du in deinem Projektordner einen neuen Unterordner: C:\Users\rober\Flutter-Project\Work\picture_resize\build\web
+
+In diesem Ordner liegen Dateien wie index.html, main.dart.js, ein assets-Ordner usw.
+
+Schritt 3: Ab zu Laragon
+Gehe in dein Laragon-Verzeichnis, normalerweise C:\laragon\www\
+Erstelle dort einen neuen Ordner, z.B. resizer (passend zum --base-href von oben).
+Kopiere den kompletten Inhalt aus dem build\web-Ordner (nicht den Ordner selbst, sondern die Dateien darin) in diesen neuen resizer-Ordner.
+Schritt 4: App im Browser öffnen
+
+Starte deinen Laragon-Server (Apache/Nginx starten). Gehe in deinem Browser (Edge/Chrome/Firefox) nun einfach auf deine lokale Adresse, z.B.: http://localhost/resizer/ (oder http://resizer.test, falls Laragon die Auto-Virtual-Hosts an hat).
+
+Fertig! Deine Flutter-App läuft nun pfeilschnell als eigenständige Web-Anwendung auf deinem eigenen lokalen Server, ganz ohne den aktiven Flutter-Debugger im Hintergrund!
